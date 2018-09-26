@@ -12,6 +12,16 @@ import java.util.Arrays;
  */
 public class WxSignUtils<main> {
 
+    /**
+     * 校验请求来源为微信
+     *
+     * @param signature
+     * @param timestamp
+     * @param nonce
+     * @return boolean
+     * @author jiangming.huang
+     * @date 2018/9/26 0026 下午 4:33
+     */
     public static boolean checkSignature(String signature, String timestamp,String nonce) {
 
         // 与接口配置信息中的Token要一致
