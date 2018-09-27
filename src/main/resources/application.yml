@@ -17,9 +17,9 @@ spring:
   datasource:
     # 数据源配置
     name: jyjl
-    url: jdbc:mysql://192.168.122.25:3306/smme_dev_v3?useSSL=false
-    username: smme
-    password: smme_123456
+    url: jdbc:mysql://111.230.147.154:3306/demo_db?useSSL=false
+    username: demo_db
+    password: demo_123456
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
     filters: stat

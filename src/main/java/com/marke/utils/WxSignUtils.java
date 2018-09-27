@@ -1,5 +1,9 @@
 package com.marke.utils;
 
+import com.marke.config.SysConfiguration;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -10,7 +14,11 @@ import java.util.Arrays;
  * @author marke.huang
  * @date 2018/9/23 20:03
  */
-public class WxSignUtils<main> {
+@Service
+public class WxSignUtils {
+
+    @Resource(type = SysConfiguration.class)
+    private SysConfiguration sysConfiguration;
 
     /**
      * 校验请求来源为微信
@@ -22,10 +30,10 @@ public class WxSignUtils<main> {
      * @author jiangming.huang
      * @date 2018/9/26 0026 下午 4:33
      */
-    public static boolean checkSignature(String signature, String timestamp,String nonce) {
+    public boolean checkSignature(String signature, String timestamp,String nonce) {
 
         // 与接口配置信息中的Token要一致
-        String token = "284c16786bd28dbaca004fedb5badb55";
+        String token = sysConfiguration.getPWxToken();
         // 从请求中（也就是微信服务器传过来的）拿到的token, timestamp, nonce
         String[] arr = { token, timestamp, nonce };
         // 1.将token、timestamp、nonce三个参数进行字典序排序
@@ -60,7 +68,7 @@ public class WxSignUtils<main> {
     }
 
     public static void main(String[] args) {
-        boolean cheack = WxSignUtils.checkSignature("2a89c3d9579fa17c1fc76ba27e29a66e0c166da8","1537715847","1422616836");
+        boolean cheack = new WxSignUtils().checkSignature("2a89c3d9579fa17c1fc76ba27e29a66e0c166da8","1537715847","1422616836");
         System.out.println("boolean:" + cheack);
     }
 }

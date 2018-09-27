@@ -19,12 +19,11 @@ import java.util.Map;
 /**
  * 基于mybatis-plus的代码生成类
  *
- * @author jiangming.huang
+ * @author marke.huang
  * @date 2018/9/26 0026 下午 5:15
  */
 public class MpGenerator {
 
-    // 根据命名规范，只修改此常量值即可
     /**
      * 生成包名
      */
@@ -43,17 +42,17 @@ public class MpGenerator {
     /**
      * 数据库连接地址
      */
-    private static String JDBC_URL = "jdbc:mysql://localhost:3306/demo?characterEncoding=utf8";
+    private static String JDBC_URL = "jdbc:mysql://111.230.147.154:3306/demo_db?characterEncoding=utf8";
 
     /**
      * 数据库用户名
      */
-    private static String JDBC_USERNAME = "root";
+    private static String JDBC_USERNAME = "demo_db";
 
     /**
      * 数据库密码
      */
-    private static String JDBC_PASSWORD = "123456";
+    private static String JDBC_PASSWORD = "demo_123456";
 
     static {
         if (DbType.ORACLE.equals(DB_TYPE)) {
