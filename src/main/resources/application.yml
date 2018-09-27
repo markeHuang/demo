@@ -1,3 +1,37 @@
-# ����˶˿�����
+# 服务端端口配置
 server:
   port: 80
+
+# Spring配置
+spring:
+  profiles:
+    # 运行环境
+    active: dev
+  devtools:
+    # 重启
+    restart:
+      # 启用热部署
+      enabled: true
+      # 监听目录
+      additional-paths: src/main/resources/mappers/,src/main/java/com/marke/
+  datasource:
+    # 数据源配置
+    name: jyjl
+    url: jdbc:mysql://192.168.122.25:3306/smme_dev_v3?useSSL=false
+    username: smme
+    password: smme_123456
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
