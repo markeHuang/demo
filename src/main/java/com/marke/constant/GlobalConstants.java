@@ -317,4 +317,15 @@ public final class GlobalConstants {
         public static final String YYYY_M_D = "yyyy/M/d";
     }
 
+    /**
+     * 安全散列算法常量类
+     *
+     * @author jiangming.huang
+     * @date 2018/9/27 0027 下午 5:20
+     */
+    public final class SecureHashAlgorithm {
+        public static final String SHA_1 = "SHA-1";
+
+        public static final String SHA_256 = "SHA-256";
+    }
 }

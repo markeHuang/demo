@@ -1,6 +1,7 @@
 package com.marke.utils;
 
 import com.marke.config.SysConfiguration;
+import com.marke.constant.GlobalConstants;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -44,7 +45,7 @@ public class WxSignUtils {
             for (int i = 0; i < arr.length; i++) {
                 content.append(arr[i]);
             }
-            MessageDigest md = MessageDigest.getInstance("SHA-1");
+            MessageDigest md = MessageDigest.getInstance(GlobalConstants.SecureHashAlgorithm.SHA_1);
             // 将三个参数字符串拼接成一个字符串进行sha1加密
             byte[] digest = md.digest(content.toString().getBytes());
             // 将加密字节数组转成16进制字符串
