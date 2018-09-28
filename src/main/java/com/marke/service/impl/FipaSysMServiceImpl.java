@@ -2,12 +2,11 @@ package com.marke.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.marke.constant.FieldContants;
-import com.marke.entity.model.FipaSysM;
-import com.marke.entity.mapper.FipaSysMMapper;
-import com.marke.service.FipaSysMService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.marke.constant.FieldContants;
+import com.marke.entity.mapper.FipaSysMMapper;
+import com.marke.entity.model.FipaSysM;
+import com.marke.service.FipaSysMService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,7 +29,7 @@ public class FipaSysMServiceImpl extends ServiceImpl<FipaSysMMapper, FipaSysM> i
     public List<FipaSysM> listSystemConfig() {
         LambdaQueryWrapper<FipaSysM> queryWrapper = new QueryWrapper<FipaSysM>().lambda();
         queryWrapper.eq(FipaSysM::getDelFlag, FieldContants.PublicFieldValue.DEL_FLAG_NO);
-        return list(queryWrapper);
+        return super.list(queryWrapper);
     }
 
     /**
