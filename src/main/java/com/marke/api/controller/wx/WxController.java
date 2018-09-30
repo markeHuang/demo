@@ -4,8 +4,8 @@ import com.marke.config.SysConfiguration;
 import com.marke.constant.GlobalConstants;
 import com.marke.constant.SysConfigConstants;
 import com.marke.entity.model.FipaSysM;
-import com.marke.service.FipaSysMService;
-import org.springframework.web.bind.annotation.GetMapping;
+import com.marke.service.fipa.FipaSysMService;
+import com.marke.service.fwxm.FwxmMsgMService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,6 +31,9 @@ public class WxController {
     @Resource(type = FipaSysMService.class)
     private FipaSysMService fipaSysMService;
 
+    @Resource(type = FwxmMsgMService.class)
+    private FwxmMsgMService fwxmMsgMService;
+
     /**
      * 接收微信消息和事件
      *
@@ -38,7 +41,7 @@ public class WxController {
      * @author marke.huang
      * @date 2018/9/26 0026 下午 4:29
      */
-    @GetMapping(value = "/getWxMsgOrEvent")
+    @RequestMapping(value = "/getWxMsgOrEvent")
     public String getWxMsgOrEvent(HttpServletRequest request) {
         // 微信加密签名
         String signature = request.getParameter("signature");
@@ -52,7 +55,7 @@ public class WxController {
         if (this.checkSignature(signature, timestamp, nonce)) {
             // 校验是否接入了微信
             if (GlobalConstants.Flag.TRUE.equals(sysConfiguration.getPWxJoin())) {
-                // TODO 处理消息和事件
+                return fwxmMsgMService.processMsg(request);
             } else {
                 // 更新微信接入值
                 FipaSysM fipaSysM = new FipaSysM();
@@ -74,7 +77,7 @@ public class WxController {
      * @param timestamp
      * @param nonce
      * @return boolean
-     * @author jiangming.huang
+     * @author marke.huang
      * @date 2018/9/26 0026 下午 4:33
      */
     private boolean checkSignature(String signature, String timestamp, String nonce) {
@@ -112,4 +115,6 @@ public class WxController {
 
         return false;
     }
+
+
 }

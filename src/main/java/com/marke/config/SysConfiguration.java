@@ -5,7 +5,7 @@ import com.marke.constant.CacheConstants;
 import com.marke.constant.SysConfigConstants;
 import com.marke.entity.model.FipaSysM;
 import com.marke.plugin.cache.TimeoutMapCache;
-import com.marke.service.FipaSysMService;
+import com.marke.service.fipa.FipaSysMService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
