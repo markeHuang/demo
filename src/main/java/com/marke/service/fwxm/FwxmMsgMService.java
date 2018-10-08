@@ -1,6 +1,6 @@
 package com.marke.service.fwxm;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * 微信消息服务
@@ -11,12 +11,16 @@ import javax.servlet.http.HttpServletRequest;
 public interface FwxmMsgMService {
 
     /**
-     * 微信消息处理
+     * 文本消息处理
      *
-     * @param request
+     * @param map
+     * @param reqContent
+     * @param isBindWx
+     *              是否绑定微信
      * @return java.lang.String
-     * @author marke.huang
-     * @date 2018/9/30 0030 下午 2:18
+     * @author jiangming.huang
+     * @date 2018/10/8 0008 下午 5:13
      */
-    String processMsg(HttpServletRequest request);
+    String processTextMsg(Map<String, String> map, String reqContent, Boolean isBindWx);
+
 }
