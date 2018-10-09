@@ -57,7 +57,7 @@ public class FwxmMsgMServiceImpl implements FwxmMsgMService {
             }
         }
 
-        // // 第二步，将构造的信息转化为微信识别的xml格式
+        // 第二步，将构造的信息转化为微信识别的xml格式
         XStream xStream = new XStream();
         xStream.alias("xml", wxMsgVo.getClass());
         String textMsg2Xml = xStream.toXML(wxMsgVo);

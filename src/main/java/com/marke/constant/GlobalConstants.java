@@ -277,6 +277,10 @@ public final class GlobalConstants {
          * user.dir
          */
         public static final String USER_DIR = "user.dir";
+        /**
+         * admin
+         */
+        public static final String ADMIN = "admin";
     }
 
     /**
@@ -320,12 +324,24 @@ public final class GlobalConstants {
     /**
      * 安全散列算法常量类
      *
-     * @author jiangming.huang
+     * @author marke.huang
      * @date 2018/9/27 0027 下午 5:20
      */
     public final class SecureHashAlgorithm {
         public static final String SHA_1 = "SHA-1";
 
         public static final String SHA_256 = "SHA-256";
+    }
+
+    /**
+     * http请求类型
+     *
+     * @author jiangming.huang
+     * @date 2018/10/9 0009 下午 4:00
+     */
+    public final class RequestMethod {
+        public static final String GET = "GET";
+
+        public static final String POST = "POST";
     }
 }

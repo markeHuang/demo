@@ -13,4 +13,14 @@ import com.marke.entity.model.FwxmSatM;
  */
 public interface FwxmSatMService extends IService<FwxmSatM> {
 
+    /**
+     * 获取微信公众号开发者的accessToken
+     *
+     * @param
+     * @return java.lang.String
+     * @author jiangming.huang
+     * @date 2018/10/9 0009 下午 5:40
+     */
+    String getAccessToken();
+
 }

@@ -1,29 +1,23 @@
 package com.marke.api.controller.wx;
 
+import com.alibaba.fastjson.JSONObject;
 import com.marke.config.SysConfiguration;
 import com.marke.constant.GlobalConstants;
 import com.marke.constant.SysConfigConstants;
 import com.marke.constant.WxConstants;
 import com.marke.entity.model.FipaSysM;
+import com.marke.remote.client.WxHttpsClient;
 import com.marke.service.fipa.FipaSysMService;
 import com.marke.service.fwxm.FwxmMsgMService;
+import com.marke.utils.Dom4jUtils;
 import com.marke.utils.StringUtils;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
+import com.marke.utils.WxUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -45,6 +39,9 @@ public class WxController {
     @Resource(type = FwxmMsgMService.class)
     private FwxmMsgMService fwxmMsgMService;
 
+    @Resource(type = WxHttpsClient.class)
+    private WxHttpsClient wxHttpsClient;
+
     /**
      * 接收微信消息和事件
      *
@@ -54,6 +51,7 @@ public class WxController {
      */
     @RequestMapping(value = "/doWxMsgOrEvent")
     public String doWxMsgOrEvent(HttpServletRequest request) {
+
         // 微信加密签名
         String signature = request.getParameter("signature");
         // 时间戳
@@ -62,8 +60,10 @@ public class WxController {
         String nonce = request.getParameter("nonce");
         //  随机字符串 (基础配置使用)
 		String echostr = request.getParameter("echostr");
+        // 与接口配置信息中的Token要一致
+        String token = sysConfiguration.getPWxToken();
         // 验证是否是微信的请求
-        if (this.checkSignature(signature, timestamp, nonce)) {
+        if (WxUtils.checkSignature(signature, timestamp, nonce, token)) {
             // 校验是否接入了微信
             if (GlobalConstants.Flag.TRUE.equals(sysConfiguration.getPWxJoin())) {
                 return this.processMsgOrEvent(request);
@@ -82,52 +82,6 @@ public class WxController {
     }
 
     /**
-     * 校验请求来源为微信
-     *
-     * @param signature
-     * @param timestamp
-     * @param nonce
-     * @return boolean
-     * @author marke.huang
-     * @date 2018/9/26 0026 下午 4:33
-     */
-    private boolean checkSignature(String signature, String timestamp, String nonce) {
-        // 与接口配置信息中的Token要一致
-        String token = sysConfiguration.getPWxToken();
-        // 从请求中（也就是微信服务器传过来的）拿到的token, timestamp, nonce
-        String[] arr = {token, timestamp, nonce};
-        // 1.将token、timestamp、nonce三个参数进行字典序排序
-        Arrays.sort(arr);
-        try {
-            // 2.将三个参数字符串拼接成一个字符串进行sha1加密
-            StringBuilder content = new StringBuilder();
-            for (int i = 0; i < arr.length; i++) {
-                content.append(arr[i]);
-            }
-            MessageDigest md = MessageDigest.getInstance(GlobalConstants.SecureHashAlgorithm.SHA_1);
-            // 将三个参数字符串拼接成一个字符串进行sha1加密
-            byte[] digest = md.digest(content.toString().getBytes());
-            // 将加密字节数组转成16进制字符串
-            StringBuffer hexstr = new StringBuffer();
-            String shaHex = "";
-            for (int i = 0; i < digest.length; i++) {
-                shaHex = Integer.toHexString(digest[i] & 0xFF);
-                if (shaHex.length() < 2) {
-                    hexstr.append(0);
-                }
-                hexstr.append(shaHex);
-            }
-            String tmpStr = hexstr.toString();
-            // 3.开发者获得加密后的字符串可与signature对比，标识该请求来源于微信
-            return tmpStr != null ? tmpStr.equals(signature) : false;
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-
-        return false;
-    }
-
-    /**
      * 处理消息和事件
      *
      * @param request
@@ -136,15 +90,16 @@ public class WxController {
      * @date 2018/10/8 0008 下午 5:25
      */
     private String processMsgOrEvent(HttpServletRequest request) {
-        // 解析微信消息
-        Map<String, String> map = this.parseXml(request);
         // 返回消息
         String result = StringUtils.EMPTY;
+
+        // 解析微信消息，记录XML解析处理的数据进行存储：key是ToUserName，value是<![CDATA[toUser]]>....
+        Map<String, String> map = Dom4jUtils.parseRequst(request);
+
         // 消息类型
         String msgType = map.get("MsgType");
         // 接收消息
         String reqContent = StringUtils.EMPTY;
-
         // 文本消息
         if (WxConstants.MsgType.TEXT.equals(msgType)) {
             reqContent = map.get("Content");
@@ -174,8 +129,8 @@ public class WxController {
         else if (WxConstants.MsgType.EVENT.equals(msgType)) {
             return this.processEvent(map, reqContent);
         }
-        return result;
 
+        return result;
     }
 
     /**
@@ -223,7 +178,7 @@ public class WxController {
             // 判断是否已经关注关注
             if (eventKey.contains(WxConstants.Constans.QRSCENE)) {
                 // 第一次关注并绑定账号
-                int index = eventKey.indexOf("_");
+                int index = eventKey.indexOf(GlobalConstants.Symbol.UNDERLINE);
                 // 获取userid
                 userid = eventKey.substring(index, eventKey.length() - 1);
             } else {
@@ -247,46 +202,27 @@ public class WxController {
         return result;
     }
 
-    /**
-     * 解析微信消息
-     *
-     * @param request
-     * @return java.util.Map<java.lang.String   ,   java.lang.String>
-     * @author marke.huang
-     * @date 2018/9/30 0030 下午 2:28
-     */
-    private Map<String, String> parseXml(HttpServletRequest request) {
-        // 记录XML解析处理的数据进行存储：key是ToUserName，value是<![CDATA[toUser]]>....
-        Map<String, String> map = new LinkedHashMap<String, String>();
-        try {
-            // 根据请求request对象获取流对象
-            final InputStream inputStream = request.getInputStream();
-
-            /* DOM4J解析 */
-            // 创建SAX解析构造器对象
-            final SAXReader reader = new SAXReader();
-            // 通过读取流的对象，获取文档对象
-            final Document document = reader.read(inputStream);
-            // 获取跟节点:<xml> 这个是就更节点
-            final Element root = document.getRootElement();
-            // 获取跟节点下的子节点
-            final List<Element> elements = root.elements();
-            // 遍历解析
-            for (Element element : elements) {
-                // 节点名称和节点的值
-                map.put(element.getName(), element.getText());
-            }
-
-            // 关闭流
-            if (inputStream != null) {
-                inputStream.close();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (DocumentException e) {
-            e.printStackTrace();
+    @GetMapping("/getWxTemporaryCode")
+    public String getWxTemporaryCode() {
+        sysConfiguration.getPWxJoin();
+        System.out.println(fipaSysMService);
+        // 二维码ticket
+        String ticket = StringUtils.EMPTY;
+        // 用户ID
+        String userid = "";
+        // 获取临时二维码的参数
+        String param = "{\"expire_seconds\": 86400, \"action_name\": \"QR_STR_SCENE\", \"action_info\": {\"scene\": {\"scene_str\":" + userid + "}}}";
+        // 获取二维码的URL
+        String requestUrl = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=ACCESS_TOKEN";
+        // 获取token
+//        String token = WxAccessTokenService.getInstance().getAccessToken();
+        // 替换token
+//        requestUrl = requestUrl.replaceAll("ACCESS_TOKEN", token);
+        JSONObject jsonResult = wxHttpsClient.httpsRequest(requestUrl, "POST", param);
+        if (jsonResult != null) {
+            ticket = jsonResult.getString("ticket");
         }
-        return map;
+        return ticket;
     }
 
 }
