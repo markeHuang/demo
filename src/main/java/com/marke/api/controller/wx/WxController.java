@@ -9,6 +9,7 @@ import com.marke.entity.model.FipaSysM;
 import com.marke.remote.client.WxHttpsClient;
 import com.marke.service.fipa.FipaSysMService;
 import com.marke.service.fwxm.FwxmMsgMService;
+import com.marke.service.fwxm.FwxmSatMService;
 import com.marke.utils.Dom4jUtils;
 import com.marke.utils.StringUtils;
 import com.marke.utils.WxUtils;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 /**
@@ -42,6 +44,9 @@ public class WxController {
     @Resource(type = WxHttpsClient.class)
     private WxHttpsClient wxHttpsClient;
 
+    @Resource(type = FwxmSatMService.class)
+    private FwxmSatMService fwxmSatMService;
+
     /**
      * 接收微信消息和事件
      *
@@ -51,7 +56,10 @@ public class WxController {
      */
     @RequestMapping(value = "/doWxMsgOrEvent")
     public String doWxMsgOrEvent(HttpServletRequest request) {
-
+        // 未开启直接返回空
+        if (GlobalConstants.Flag.FALSE.equals(sysConfiguration.getPWxOpen())) {
+            return null;
+        }
         // 微信加密签名
         String signature = request.getParameter("signature");
         // 时间戳
@@ -89,7 +97,7 @@ public class WxController {
      * @author jiangming.huang
      * @date 2018/10/8 0008 下午 5:25
      */
-    private String processMsgOrEvent(HttpServletRequest request) {
+    private String processMsgOrEvent(@NotNull HttpServletRequest request) {
         // 返回消息
         String result = StringUtils.EMPTY;
 
@@ -142,7 +150,7 @@ public class WxController {
      * @author jiangming.huang
      * @date 2018/10/8 0008 下午 5:31
      */
-    private String processEvent(Map<String, String> map, String reqContent) {
+    private String processEvent(@NotNull Map<String, String> map, String reqContent) {
         String result = StringUtils.EMPTY;
         String eventType = map.get("Event");
         String eventKey = map.get("EventKey");
@@ -213,11 +221,11 @@ public class WxController {
         // 获取临时二维码的参数
         String param = "{\"expire_seconds\": 86400, \"action_name\": \"QR_STR_SCENE\", \"action_info\": {\"scene\": {\"scene_str\":" + userid + "}}}";
         // 获取二维码的URL
-        String requestUrl = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=ACCESS_TOKEN";
+        String requestUrl = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=%s";
         // 获取token
-//        String token = WxAccessTokenService.getInstance().getAccessToken();
+        String token = fwxmSatMService.getAccessToken();
         // 替换token
-//        requestUrl = requestUrl.replaceAll("ACCESS_TOKEN", token);
+        requestUrl = String.format(requestUrl, token);
         JSONObject jsonResult = wxHttpsClient.httpsRequest(requestUrl, "POST", param);
         if (jsonResult != null) {
             ticket = jsonResult.getString("ticket");

@@ -7,6 +7,7 @@ import com.marke.entity.model.FipaSysM;
 import com.marke.plugin.cache.TimeoutMapCache;
 import com.marke.service.fipa.FipaSysMService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,12 @@ public final class SysConfiguration {
 
     @Resource(type = FipaSysMService.class)
     private FipaSysMService fipaSysMService;
+
+    /**
+     * 系统数据库类型
+     */
+    @Value(value = "${application.dbType}")
+    private String dbType;
 
     /**
      * 初始化配置信息
@@ -124,5 +131,12 @@ public final class SysConfiguration {
      */
     public String getPWxAppSecret() {
         return get(SysConfigConstants.P_WX_APP_SECRET);
+    }
+
+    /**
+     * 获取系统数据库类型
+     */
+    public String getDbType() {
+        return dbType;
     }
 }

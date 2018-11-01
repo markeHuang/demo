@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 微信消息(图文消息)
  *
- * @author jiangming.huang
+ * @author marke.huang
  * @date 2018/9/30 0030 下午 2:43
  */
 @Getter

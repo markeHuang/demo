@@ -16,7 +16,7 @@ spring:
       additional-paths: src/main/resources/mappers/,src/main/java/com/marke/
   datasource:
     # 数据源配置
-    name: jyjl
+    name: demo
     url: jdbc:mysql://111.230.147.154:3306/demo_db?useSSL=false
     username: demo_db
     password: demo_123456
@@ -35,3 +35,44 @@ spring:
     testOnReturn: false
     poolPreparedStatements: true
     maxOpenPreparedStatements: 20
+
+#mybatis
+mybatis-plus:
+  # Mapper 所对应的 XML 文件位置
+  mapperLocations: classpath*:/mappers/*Mapper.xml
+  # 实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.marke.entity.model,com.marke.entity.vo
+  # 全局策略配置
+  global-config:
+    # 刷新mapper 调试神器
+    refresh: true
+    # 数据库相关配置
+    db-config:
+      # 数据库类型
+      dbType: mysql
+      # 驼峰下划线转换
+      column-underline: true
+      # 逻辑删除配置
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+      # 主键类型 AUTO->`0`("数据库ID自增"),INPUT->`1`(用户输入ID"),ID_WORKER->`2`("全局唯一ID"),UUID->`3`("全局唯一ID")
+      id-type: input
+      # 字段策略
+      field-strategy: not_empty
+      # 表名、是否使用下划线命名，默认数据库表使用下划线命名
+      table-underline: true
+      # 是否开启 LIKE 查询，默认不开启
+      column-like: false
+      # 是否开启大写命名，默认不开启
+      capital-mode: false
+  configuration:
+    # 是否开启自动驼峰命名规则（camel case）映射，即从经典数据库列名 A_COLUMN 到经典 Java 属性名 aColumn 的类似映射
+    map-underscore-to-camel-case: true
+    # 全局地开启或关闭配置文件中的所有映射器已经配置的任何缓存，默认为 true
+    cache-enabled: false
+    jdbc-type-for-null: null
+
+# 应用配置
+application:
+  # 数据库类型 MYSQL ORACLE DB2 SQLSERVER
+  dbType: MYSQL

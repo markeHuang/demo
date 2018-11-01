@@ -50,6 +50,10 @@ public class FwxmSatMServiceImpl extends ServiceImpl<FwxmSatMMapper, FwxmSatM> i
     @Override
     @PostConstruct
     public String getAccessToken() {
+        // 未开启直接返回空
+        if (GlobalConstants.Flag.FALSE.equals(sysConfiguration.getPWxOpen())) {
+            return null;
+        }
         // 获取公众号的AccessToken
         FwxmSatMVo fwxmSatMVo = new FwxmSatMVo();
         fwxmSatMVo.setCreateUser(GlobalConstants.Flag.ADMIN);
@@ -94,9 +98,10 @@ public class FwxmSatMServiceImpl extends ServiceImpl<FwxmSatMMapper, FwxmSatM> i
     /**
      * 获取access_token
      *
-     * @return
-     * @author zhuang.shao
-     * @date 2018年9月27日 上午9:19:01
+     * @param
+     * @return java.lang.String
+     * @author jiangming.huang
+     * @date 2018/11/1 0001 上午 10:31
      */
     private String getAccessTokenData() {
         // 开发者ID
@@ -118,7 +123,7 @@ public class FwxmSatMServiceImpl extends ServiceImpl<FwxmSatMMapper, FwxmSatM> i
      *
      * @param fwxmSatMVo
      * @return java.util.List<com.marke.entity.vo.FwxmSatMVo>
-     * @author jiangming.huang
+     * @author marke.huang
      * @date 2018/10/9 0009 下午 6:02
      */
     private List<FwxmSatMVo> listWxAccessTokenByCondition(FwxmSatMVo fwxmSatMVo) {

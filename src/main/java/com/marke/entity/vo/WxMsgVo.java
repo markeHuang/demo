@@ -13,7 +13,7 @@ import java.io.Serializable;
  * 类功能描述：微信消息(普通文字消息)
  * WxMsgVo.java
  *
- * @author jiangming.huang
+ * @author marke.huang
  * @version 0.1.0
  * @history 2017年10月30日 jiangming.huang 创建WxMsgVo.java
  */
