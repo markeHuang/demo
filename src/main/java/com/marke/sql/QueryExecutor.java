@@ -14,7 +14,8 @@ import java.util.Map;
 /**
  * MyBatis 查询工具类
  *
- * @author cyj
+ * @author marke.huang
+ * @date 2018/11/17 14:03
  */
 @Service
 @Slf4j

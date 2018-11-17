@@ -7,10 +7,10 @@ import lombok.ToString;
 import java.io.Serializable;
 
 /**
- * 标准请求实体类 .<br>
+ * 标准请求实体类
  *
- * @author andy.sher
- * @date 2018/7/16 15:21
+ * @author marke.huang
+ * @date 2018/11/17 13:54
  */
 @Getter
 @Setter

@@ -29,7 +29,7 @@ public final class SysConfiguration {
     /**
      * 刷新缓存时间1天
      */
-    private static final long EXPIRE_TIME = 1440 * 60 * 1000;
+    private static final long EXPIRE_TIME = 24 * 60 * 60 * 1000L;
 
     @Resource(type = TimeoutMapCache.class)
     private TimeoutMapCache timeoutMapCache;

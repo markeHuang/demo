@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 /**
- * SpringIOC容器工具类 .<br>
+ * SpringIOC容器工具类
  *
- * @author andy.sher
- * @date 2018/7/11 9:58
+ * @author marke.huang
+ * @date 2018/11/17 14:04
  */
 @Component("springContextUtil")
 public final class SpringContextUtils implements ApplicationContextAware {

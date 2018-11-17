@@ -210,10 +210,16 @@ public class WxController {
         return result;
     }
 
+    /**
+     * 获取微信临时二维码
+     *
+     * @param
+     * @return java.lang.String
+     * @author marke.huang
+     * @date 2018/11/17 13:45
+     */
     @GetMapping("/getWxTemporaryCode")
     public String getWxTemporaryCode() {
-        sysConfiguration.getPWxJoin();
-        System.out.println(fipaSysMService);
         // 二维码ticket
         String ticket = StringUtils.EMPTY;
         // 用户ID
@@ -230,7 +236,10 @@ public class WxController {
         if (jsonResult != null) {
             ticket = jsonResult.getString("ticket");
         }
-        return ticket;
+        // 二维码地址ticketUrl
+        String ticketUrl = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=%s";
+        ticketUrl= String.format(ticketUrl, ticket);
+        return ticketUrl;
     }
 
 }

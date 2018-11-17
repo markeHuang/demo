@@ -336,7 +336,7 @@ public final class GlobalConstants {
     /**
      * http请求类型
      *
-     * @author jiangming.huang
+     * @author marke.huang
      * @date 2018/10/9 0009 下午 4:00
      */
     public final class RequestMethod {

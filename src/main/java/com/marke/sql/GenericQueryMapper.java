@@ -7,12 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 类功能描述:MyBatis动态执行sql语句
+ * MyBatis动态执行sql语句
  *
- * @author oscar.yu
- * @version 1.0.0
- * @className GenericQueryMapper.java
- * @history 2013年11月29日 oscar.yu 创建 GenericQueryMapper.java
+ * @author marke.huang
+ * @date 2018/11/17 14:03
  */
 public interface GenericQueryMapper {
 

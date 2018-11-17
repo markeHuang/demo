@@ -19,14 +19,14 @@ public class CorsConfiguration {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOrigins("*")
-                        .allowedMethods("*")
-                        .allowedHeaders("*")
-                        //设置是否允许跨域传cookie
-                        .allowCredentials(true)
-                        //设置缓存时间，减少重复响应
-                        .maxAge(3600);
+            registry.addMapping("/**")
+                    .allowedOrigins("*")
+                    .allowedMethods("*")
+                    .allowedHeaders("*")
+                    //设置是否允许跨域传cookie
+                    .allowCredentials(true)
+                    //设置缓存时间，减少重复响应
+                    .maxAge(3600);
             }
         };
     }

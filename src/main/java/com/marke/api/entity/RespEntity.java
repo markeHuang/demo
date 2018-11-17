@@ -11,10 +11,10 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- * 标准响应实体类 .<br>
+ * 标准响应实体类
  *
- * @author andy.sher
- * @date 2018/7/10 17:19
+ * @author marke.huang
+ * @date 2018/11/17 13:54
  */
 @Getter
 @Setter

@@ -3,7 +3,7 @@ package com.marke.constant;
 /**
  * 微信公众号常量类
  *
- * @author jiangming.huang
+ * @author marke.huang
  * @date 2018/10/8 0008 下午 5:37
  */
 public final class WxConstants {
@@ -14,7 +14,7 @@ public final class WxConstants {
     /**
      * 消息类型
      *
-     * @author jiangming.huang
+     * @author marke.huang
      * @date 2018/10/8 0008 下午 5:39
      */
     public final class MsgType {
@@ -52,7 +52,7 @@ public final class WxConstants {
     /**
      * 事件类型
      *
-     * @author jiangming.huang
+     * @author marke.huang
      * @date 2018/10/8 0008 下午 5:45
      */
     public final class EventType {
@@ -79,7 +79,9 @@ public final class WxConstants {
     }
 
     /**
-     * @author jiangming.huang
+     * 常量类
+     *
+     * @author marke.huang
      * @date 2018/10/8 0008 下午 5:56
      */
     public final class Constans {
