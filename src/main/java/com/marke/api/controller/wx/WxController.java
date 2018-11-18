@@ -13,6 +13,7 @@ import com.marke.service.fwxm.FwxmSatMService;
 import com.marke.utils.Dom4jUtils;
 import com.marke.utils.StringUtils;
 import com.marke.utils.WxUtils;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,7 +24,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 /**
- * 微信接口服务类
+ * 微信服务模块
  *
  * @author marke.huang
  * @date 2018/9/23 19:29
@@ -94,7 +95,7 @@ public class WxController {
      *
      * @param request
      * @return java.lang.String
-     * @author jiangming.huang
+     * @author marke.huang
      * @date 2018/10/8 0008 下午 5:25
      */
     private String processMsgOrEvent(@NotNull HttpServletRequest request) {
@@ -147,7 +148,7 @@ public class WxController {
      * @param map
      * @param reqContent
      * @return java.lang.String
-     * @author jiangming.huang
+     * @author marke.huang
      * @date 2018/10/8 0008 下午 5:31
      */
     private String processEvent(@NotNull Map<String, String> map, String reqContent) {
@@ -219,6 +220,7 @@ public class WxController {
      * @date 2018/11/17 13:45
      */
     @GetMapping("/getWxTemporaryCode")
+    @RequiresAuthentication
     public String getWxTemporaryCode() {
         // 二维码ticket
         String ticket = StringUtils.EMPTY;

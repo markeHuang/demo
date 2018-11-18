@@ -142,4 +142,55 @@ public final class FieldContants {
         public static final String EXISTENCE_NO = "0";
     }
 
+    /**
+     * 用户信息表相关常量
+     *
+     * @author marke.huang
+     * @date 2018/11/18 20:36
+     */
+    public final class SipaBurM {
+
+        private SipaBurM() {
+        }
+
+        /**
+         * 所属系统类型[后台]
+         */
+        public static final String SYSTEM_TYPE_OPERATION = "1";
+
+        /**
+         * 所属系统类型[前台]
+         */
+        public static final String SYSTEM_TYPE_PORTAL = "2";
+
+        /**
+         * 是否超级管理员[1=是]
+         */
+        public static final String ADMIN_FLAG_YES = "1";
+
+        /**
+         * 是否超级管理员[0=否]
+         */
+        public static final String ADMIN_FLAG_NO = "0";
+
+        /**
+         * 邮箱验证状态[0=未验证/1=已验证]
+         */
+        public static final String EMAIL_VAILD_UNCERTIFIED = "0";
+        /**
+         * 邮箱验证状态[0=未验证/1=已验证]
+         */
+        public static final String EMAIL_VAILD_CERTIFIED = "1";
+
+        /**
+         * 手机验证状态[0=未验证/1=已验证]
+         */
+        public static final String MOBILE_VAILD_STATUS_UNCERTIFIED = "0";
+        /**
+         * 手机验证状态[0=未验证/1=已验证]
+         */
+        public static final String MOBILE_VAILD_STATUS_CERTIFIED = "1";
+
+    }
+
 }

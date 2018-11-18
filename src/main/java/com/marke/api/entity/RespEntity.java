@@ -118,7 +118,7 @@ public class RespEntity implements Serializable {
      */
     public static RespEntity unauthorized() {
         RespEntity respEntity = new RespEntity(RespCodeEnum.UNAUTHORIZED);
-        respEntity.setMsg("授权失败。");
+        respEntity.setMsg("授权失败");
         return respEntity;
     }
 
@@ -132,7 +132,7 @@ public class RespEntity implements Serializable {
      */
     public static RespEntity unauthenticated() {
         RespEntity respEntity = new RespEntity(RespCodeEnum.UNAUTHORIZED);
-        respEntity.setMsg("认证失败。");
+        respEntity.setMsg("认证失败");
         return respEntity;
     }
 

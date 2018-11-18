@@ -1,10 +1,10 @@
 package com.marke.api.enums;
 
 /**
- * 响应代码 .<br>
+ * 响应代码
  *
- * @author andy.sher
- * @date 2018/7/10 17:19
+ * @author marke.huang
+ * @date 2018/11/18 19:43
  */
 public enum RespCodeEnum {
 
@@ -21,22 +21,22 @@ public enum RespCodeEnum {
     /**
      * 请求中含有非法参数
      */
-    ILLEGAL_PARAMETER(2, "请求中含有非法参数。"),
+    ILLEGAL_PARAMETER(2, "请求中含有非法参数"),
 
     /**
      * 授权失败
      */
-    UNAUTHORIZED(401, "授权失败。"),
+    UNAUTHORIZED(401, "授权失败"),
 
     /**
      * TOKEN过期
      */
-    TOKEN_EXPIRED(402, "Token已过期。"),
+    TOKEN_EXPIRED(402, "Token已过期"),
 
     /**
      * TOKEN无效
      */
-    TOKEN_INVALID(403, "Token无效。");
+    TOKEN_INVALID(403, "Token无效");
 
     RespCodeEnum(int code, String msg) {
         this.code = code;
